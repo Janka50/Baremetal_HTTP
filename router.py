@@ -2,10 +2,10 @@ import json
 import time
 
 def handle_route(method, path):
-
-    # homepage route
-    if path == "/":
-        body = "<h1>Welcome to BareMetal Server</h1>"
+      #dynamic routes 
+    if path.startswith("/user/"):
+        user_id = path.split("/")[-1]
+        body = f"<h1>User ID: {user_id}</h1>"
         return body.encode(), "text/html"
 
     # about page

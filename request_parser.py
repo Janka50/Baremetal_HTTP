@@ -1,3 +1,5 @@
+from urllib.parse import urlparse , parse_qs 
+
 def parse_request(request_data):
     #split requests into lines
     lines = request_data.split("\r\n")
@@ -8,13 +10,16 @@ def parse_request(request_data):
     request_line = lines[0]
     
     parts = request_line.split(" ")
+
     if len(parts)<3:
         return None
     
     method = parts[0]
-    path = parts[1]
+    raw_path = parts[1]
     version = parts [2]
-    
+    parsed_url = urlparse(raw_path)
+    path = parsed_url.path
+    query_params = parse_qs(parsed_url.query)
     #parse headers 
     headers = {}
     for line in lines:
@@ -29,6 +34,7 @@ def parse_request(request_data):
         "path": path,
         "version": version ,
         "headers": headers ,
+        "query_params": query_params
         
     }
      
